@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Dashboard')</title>
+    <title>{{ $title }} | SIPA</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icons/fontawesome.css') }}">
@@ -15,10 +15,17 @@
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
 
-        <x-sidebar></x-sidebar>
-
+        @if (Auth::user()->role === 'admin')
+            <x-sidebars.admin />
+        @elseif(Auth::user()->role === 'officer')
+            <x-sidebars.officer />
+        @elseif(Auth::user()->role === 'borrower')
+            <x-sidebars.borrower />
+        @endif
+        
         <div class="body-wrapper">
-            <x-header></x-header>
+
+            <x-partials.header></x-partials.header>
 
             <main class="container-fluid">
                 {{ $slot }}
@@ -27,7 +34,7 @@
         </div>
     </div>
 
-    <x-footer></x-footer>
+    <x-partials.footer></x-partials.footer>
 
 </body>
 

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\StoreInventoryRequest;
+use App\Http\Requests\Admin\UpdateInventoryRequest;
+use App\Models\Category;
+use App\Models\Inventory;
 
 class InventoryController extends Controller
 {
@@ -12,54 +15,39 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        return view('admin.inventory.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $inventories = Inventory::paginate(5);
+        $categories = Category::all();
+    return view('admin.inventory.index', compact('inventories', 'categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreInventoryRequest $request)
     {
-        //
+        Inventory::create($request->validated());
+
+        return redirect()->route('admin.inventory.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateInventoryRequest $request, Inventory $inventory)
     {
-        //
+        $inventory->update($request->validated());
+
+        return redirect()->route('admin.inventory.index')->with('success', 'Data berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Inventory $inventory)
     {
-        //
+        $inventory->delete();
+
+        return redirect()->route('admin.inventory.index')->with('success', 'Data berhasil dihapus!');
     }
 }
