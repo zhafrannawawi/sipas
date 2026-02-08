@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use App\Observers\LoanObserver;
-use App\Models\Loan;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +22,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
-        Loan::observe(LoanObserver::class);
     }
 }

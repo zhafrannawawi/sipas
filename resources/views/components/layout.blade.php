@@ -15,14 +15,9 @@
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
 
-        @if (Auth::user()->role === 'admin')
-            <x-sidebars.admin />
-        @elseif(Auth::user()->role === 'officer')
-            <x-sidebars.officer />
-        @elseif(Auth::user()->role === 'borrower')
-            <x-sidebars.borrower />
-        @endif
-        
+
+        <x-sidebars.admin />
+
         <div class="body-wrapper">
 
             <x-partials.header></x-partials.header>

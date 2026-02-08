@@ -27,7 +27,7 @@
 
                 {{-- Menu Dashboard --}}
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('admin.dashboard') }}" aria-expanded="false">
+                    <a class="sidebar-link" href="/" aria-expanded="false">
                         <span><i class="fas fa-th-large"></i></span>
                         <span class="hide-menu">Dashboard</span>
                     </a>
@@ -41,7 +41,7 @@
                 {{-- Menu Inventaris --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeIs('admin.inventory.*') ? 'active' : '' }}"
-                        href="{{ route('admin.inventory.index') }}" aria-expanded="false">
+                        href="/inventaris" aria-expanded="false">
                         <span><i class="fas fa-boxes"></i></span>
                         <span class="hide-menu">Inventaris</span>
                     </a>
@@ -50,7 +50,7 @@
                 {{-- Menu Kategori --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeIs('admin.category.*') ? 'active' : '' }}"
-                        href="{{ route('admin.category.index') }}" aria-expanded="false">
+                        href="/kategori" aria-expanded="false">
                         <span><i class="fas fa-tags"></i></span>
                         <span class="hide-menu">Kategori</span>
                     </a>
@@ -60,7 +60,7 @@
                 {{-- Menu Peminjaman --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeIs('admin.loan.*') ? 'active' : '' }}"
-                        href="{{ route('admin.loan.index') }}" aria-expanded="false">
+                        href="/peminjaman" aria-expanded="false">
                         <span><i class="fas fa-clipboard-list"></i></span>
                         <span class="hide-menu">Peminjaman</span>
                     </a>
@@ -69,7 +69,7 @@
                 {{-- Menu Peminjaman --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeIs('admin.history.*') ? 'active' : '' }}"
-                        href="{{ route('admin.history.index') }}" aria-expanded="false">
+                        href="/riwayat_peminjaman" aria-expanded="false">
                         <span><i class="fas fa-history"></i></span>
                         <span class="hide-menu">Riwayat Peminjaman</span>
                     </a>
@@ -79,7 +79,7 @@
                 {{-- Menu Log Aktivitas --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeIs('admin.activityLog.*') ? 'active' : '' }}"
-                        href="{{ route('admin.activityLog.index') }}" aria-expanded="false">
+                        href="/log_aktifitas" aria-expanded="false">
                         <span><i class="fas fa-chalkboard-teacher"></i></span>
                         <span class="hide-menu">Log Aktifitas</span>
                     </a>
@@ -93,7 +93,7 @@
                 {{-- Menu Administrator --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeIs('admin.administrator.*') ? 'active' : '' }}"
-                        href="{{ route('admin.administrator.index') }}" aria-expanded="false">
+                        href="/admin" aria-expanded="false">
                         <span><i class="fas fa-user-shield"></i></span>
                         <span class="hide-menu">Administrator</span>
                     </a>
@@ -103,7 +103,7 @@
                 {{-- Menu Petugas --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeIs('admin.officer.*') ? 'active' : '' }}"
-                        href="{{ route('admin.officer.index') }}" aria-expanded="false">
+                        href="/petugas" aria-expanded="false">
                         <span><i class="fas fa-user-tie"></i></span>
                         <span class="hide-menu">Petugas</span>
                     </a>
@@ -113,7 +113,7 @@
                 {{-- Menu Peminjam --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link {{ request()->routeIs('admin.borrower.*') ? 'active' : '' }}"
-                        href="{{ route('admin.borrower.index') }}" aria-expanded="false">
+                        href="/peminjam" aria-expanded="false">
                         <span><i class="fas fa-user"></i></span>
                         <span class="hide-menu">Peminjam</span>
                     </a>

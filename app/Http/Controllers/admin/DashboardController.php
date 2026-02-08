@@ -1,31 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Inventory;
-use App\Models\Loan;
-use App\Models\User;
-use App\Models\ActivityLog;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $totalUsers = User::where('role', 'borrower')->count();
-
-        $totalInventories = Inventory::sum('stock');
-
-        $activeLoans = Loan::where('status', 'borrowed')->count();
-
-        $returnedLoans = Loan::where('status', 'returned')->count();
-
-        $ActivityLogs = ActivityLog::latest()->paginate(5);
-        
-
-        return view('admin.dashboard.index', compact('totalUsers', 'activeLoans', 'totalInventories', 'ActivityLogs'));
+        return view('dashboard');
     }
 }
