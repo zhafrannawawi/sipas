@@ -1,10 +1,10 @@
 {{-- Modal konfirmasi penghapusan data inventory --}}
-<div class="modal fade" id="deleteInventoryModal{{ $inventory->id }}" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="deleteInventoryModal{{ $device->id }}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content rounded-4 shadow-lg border-0 overflow-hidden">
 
-            {{-- Form untuk mengirim request DELETE ke inventory.destroy --}}
-            <form method="POST" action="{{ route('admin.inventory.destroy', $inventory->id) }}">
+            {{-- Form untuk mengirim request DELETE ke device.destroy --}}
+            <form method="POST" action="{{ route('admin.device.destroy', $device->id) }}">
                 @csrf
                 {{-- Method spoofing karena HTML form tidak mendukung DELETE --}}
                 @method('DELETE')
@@ -30,7 +30,7 @@
                     {{-- Informasi inventory untuk memastikan data yang dihapus --}}
                     <div class="bg-light rounded-3 p-3 mb-4 border border-light-subtle">
                         <span class="text-muted small d-block mb-1">Data yang akan dihapus:</span>
-                        <span class="fw-bold text-dark fs-5">{{ $inventory->name }}</span>
+                        <span class="fw-bold text-dark fs-5">{{ $device->name }}</span>
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-center">

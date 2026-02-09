@@ -32,16 +32,16 @@
 
                         {{-- INVENTORY --}}
                         <div class="col-md-6">
-                            <label for="inventory_id_{{ $loan->id }}" class="form-label fw-bold">
-                                Alat / Barang
+                            <label for="device_id_{{ $loan->id }}" class="form-label fw-bold">
+                                Perangkat
                             </label>
-                            <select class="form-select" name="inventory_id" id="inventory_id_{{ $loan->id }}"
+                            <select class="form-select" name="device_id" id="device_id_{{ $loan->id }}"
                                 required>
-                                @foreach ($inventories as $inventory)
-                                    @if ($inventory->stock > 0 || $loan->inventory_id == $inventory->id)
-                                        <option value="{{ $inventory->id }}"
-                                            {{ old('inventory_id', $loan->inventory_id) == $inventory->id ? 'selected' : '' }}>
-                                            {{ $inventory->name }} — Stok: {{ $inventory->stock }}
+                                @foreach ($devices as $device)
+                                    @if ($device->stock > 0 || $loan->inventory_id == $device->id)
+                                        <option value="{{ $device->id }}"
+                                            {{ old('device_id', $loan->device_id) == $device->id ? 'selected' : '' }}>
+                                            {{ $device->name }} — Stok: {{ $device->stock }}
                                         </option>
                                     @endif
                                 @endforeach

@@ -44,8 +44,8 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold small text-muted">Nama Barang</label>
-                            <input type="text" class="form-control bg-light"
-                                value="{{ $loan->inventory->name ?? '-' }}" readonly />
+                            <input type="text" class="form-control bg-light" value="{{ $loan->device->name ?? '-' }}"
+                                readonly />
                         </div>
 
                         <div class="row">
@@ -76,44 +76,50 @@
 
                         <div class="row">
                             <div class="col-6 mb-3">
-                                <label class="form-label">Total Denda</label>
+                                <label class="form-label">Total Harga</label>
                                 <input type="text" class="form-control bg-light"
-                                    value="Rp {{ number_format($loan->calculateFine()) }}" readonly />
+                                    value="Rp {{ number_format($loan->total_price) }}" readonly />
                             </div>
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <label class="form-label">Total Denda</label>
-                                    <input type="text" class="form-control bg-light"
-                                        value="Rp {{ number_format($loan->calculateFine()) }}" readonly />
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <label class="form-label fw-bold small text-muted">Tgl Bayar Denda</label>
-                                    <input type="text" class="form-control bg-light"
-                                        value="{{ $loan->fine_paid_at->translatedFormat('d F Y') ?? '-' }}" readonly />
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <label class="form-label fw-bold small text-muted">Tgl Kembali</label>
-                                    <input type="text" class="form-control bg-light"
-                                        value="{{ $loan->returned_date->translatedFormat('d F Y') ?? '-' }}"
-                                        readonly />
-                                </div>
-                                <div class="col-6 mb-3">
-                                    <label class="form-label fw-bold small text-muted">Pengembalian Disetujui</label>
-                                    <input type="text" class="form-control bg-light"
-                                        value="{{ $loan->receivedBy->name ?? '-' }}" readonly />
-                                </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Dibayar</label>
+                                <input type="text" class="form-control bg-light"
+                                    value="Rp {{ number_format($loan->pay_price) }}" readonly />
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Total denda</label>
+                                <input type="text" class="form-control bg-light"
+                                    value="Rp {{ number_format($loan->calculateFine()) }}" readonly />
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Denda Dibayar</label>
+                                <input type="text" class="form-control bg-light"
+                                    value="Rp {{ number_format($loan->pay_fine) }}" readonly />
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label fw-bold small text-muted">Tgl Kembali</label>
+                                <input type="text" class="form-control bg-light"
+                                    value="{{ $loan->returned_date?->translatedFormat('d F Y') ?? '-' }}" readonly />
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label fw-bold small text-muted">Pengembalian Disetujui</label>
+                                <input type="text" class="form-control bg-light"
+                                    value="{{ $loan->receivedBy->name ?? '-' }}" readonly />
+                            </div>
+                        </div>
                     </div>
 
                 </div>
-            </div>
 
+            </div>
         </div>
+
     </div>
+</div>
 </div>

@@ -12,9 +12,9 @@
                     <div class="card mb-0">
                         <div class="card-body">
                             <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                <img src="../assets/images/logos/logo-light.svg" alt="">
+                                <img src="{{ asset('assets/images/logos/logo-psrent.svg') }}" alt="">
                             </a>
-                            <p class="text-center">Sistem Peminjaman Alat</p>
+                            <p class="text-center">Sistem Rental PS</p>
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
 
@@ -31,8 +31,13 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-primary w-100">
-                                    Sign In
+                                   Log In
                                 </button>
+
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <p class="fs-3 mb-0 fw-bold">Baru di PSRent?</p>
+                                    <a class="text-primary fw-bold ms-2" href="./authentication-register.html">Buat Akun</a>
+                                </div>
                             </form>
 
                         </div>

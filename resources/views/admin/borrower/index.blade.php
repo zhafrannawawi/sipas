@@ -35,7 +35,6 @@
                             <th scope="col" class="text-start">Email</th>
                             <th scope="col">Nama</th>
                             <th scope="col">Nomor Hp</th>
-                            <th scope="col">Alamat</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>

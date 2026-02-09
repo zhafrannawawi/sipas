@@ -27,15 +27,15 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="create_inventory_id" class="form-label fw-bold">Alat / Barang</label>
-                            <select class="form-select" name="inventory_id" id="create_inventory_id" required>
-                                <option value="" selected disabled hidden>-- Pilih Alat --</option>
-                                @foreach ($inventories as $inventory)
-                                    @if ($inventory->stock != 0)
-                                        <option value="{{ $inventory->id }}">
-                                            {{ $inventory->name }} -- {{ $inventory->stock }}
-                                        </option>
-                                    @endif
+                            <label id="'create_device_id" class="form-label fw-bold">Alat / Barang</label>
+                            <select class="form-select" name="device_id" id="'create_device_id" required>
+                                @foreach ($devices as $device)
+                                    <option value="" selected disabled hidden>-- Pilih Perangkat --</option>
+                                    {{-- Kita simpan harga di atribut data-price --}}
+                                    <option value="{{ $device->id }}">
+                                        {{ $device->name }} (Stok: {{ $device->stock }}) (Rp
+                                        {{ number_format($device->price_per_day) }}/Hari)
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -62,13 +62,15 @@
 
                 </div>
 
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                       <i class="fas fa-door-closed    "></i>  Kembali
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-1"></i> Simpan Data
-                    </button>
+                <div class="modal-footer bg-light justify-content-between">
+                    <div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-door-closed    "></i> Kembali
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Simpan Data
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

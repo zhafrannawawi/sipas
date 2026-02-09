@@ -7,7 +7,7 @@
         <!-- Logo & tombol close (mobile) -->
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <a href="./index.html" class="text-nowrap logo-img">
-                <img src="{{ asset('assets/images/logos/logo-light.svg') }}" alt="Logo" />
+                <img src="{{ asset('assets/images/logos/logo-psrent.svg') }}" alt="Logo" />
             </a>
 
             {{-- Toggle sidebar untuk layar kecil --}}
@@ -40,10 +40,10 @@
 
                 {{-- Menu Inventaris --}}
                 <li class="sidebar-item">
-                    <a class="sidebar-link {{ request()->routeIs('admin.inventory.*') ? 'active' : '' }}"
-                        href="{{ route('admin.inventory.index') }}" aria-expanded="false">
+                    <a class="sidebar-link {{ request()->routeIs('admin.device.*') ? 'active' : '' }}"
+                        href="{{route('admin.device.index')}}" aria-expanded="false">
                         <span><i class="fas fa-boxes"></i></span>
-                        <span class="hide-menu">Inventaris</span>
+                        <span class="hide-menu">Perangkat</span>
                     </a>
                 </li>
 

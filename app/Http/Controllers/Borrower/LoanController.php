@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Borrower;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Borrower\StoreLoanRequest;
+use App\Models\Device;
 use App\Models\Inventory;
 use App\Models\Loan;
 use Carbon\Carbon;
@@ -15,23 +16,39 @@ class LoanController extends Controller
 
     public function index()
     {
-        $inventories = Inventory::all();
+        $devices = Device::all();
 
         $loans = Loan::where('user_id', Auth::id())->whereIn('status', ['pending', 'borrowed', 'validation', 'Overdue'])->latest()->paginate(5);
-        return view('borrower.loan.index', compact('inventories', 'loans'));
+        return view('borrower.loan.index', compact('devices', 'loans'));
     }
 
     public function storeLoan(StoreLoanRequest $request)
     {
-
+        // 1. Validasi input
         $data = $request->validated();
 
-        $data['user_id'] = Auth::id();
-        $data['status']  = 'pending';
+        // 2. Buat instance Loan baru (jangan save dulu)
+        $loan = new Loan($data);
 
-        Loan::create($data);
+        $loan->user_id = Auth::id();
+        // --------------------------------
 
-        return redirect()->route('borrower.loan.index')->with('success', 'Pengajuan pinjaman berhasil.');
+        // 3. Ambil data Device 
+        $device = Device::findOrFail($request->device_id);
+
+        // 4. Set harga & status 
+        $loan->price_per_day = $device->price_per_day;
+        $loan->status = 'pending';
+
+        // 5. Hitung Total Harga pakai Model 
+        // Ini wajib dipanggil biar total_price terisi
+        $loan->calculatePrice();
+
+        // 6. Simpan
+        $loan->save();
+
+        return redirect()->route('borrower.loan.index')
+            ->with('success', 'Pengajuan berhasil! Estimasi Biaya: Rp ' . number_format($loan->total_price));
     }
 
     public function updateLoan(Request $request, Loan $loan)
@@ -82,27 +99,16 @@ class LoanController extends Controller
     public function returnLoan(Request $request, Loan $loan)
     {
 
-
-        // Hitung denda
-        $fine = $loan->calculateFine();
-
-        if ($request->amount_paid < $fine) {
-            return redirect()->route('borrower.loan.index')->with('error', 'Pembayaran kurang dari denda.');
+        if ($loan->status !== 'borrowed') {
+            return redirect()->back()->with('error', 'Status peminjaman tidak valid.');
         }
 
-        // Update loan sekaligus
+        // Ubah status jadi 'return_pending'
         $loan->update([
-            'status'        => 'validation',
-            'returned_date' => Carbon::now(),
-            'fine_total'    => $fine,
-            'amount_paid'   => $request->amount_paid,
-            'fine_paid_at'  => Carbon::now(),
+            'status' => 'validation'
         ]);
 
-        $message = $fine > 0
-            ? "Alat dikembalikan. Denda Rp " . number_format($fine, 0, ',', '.') . " telah dicatat."
-            : "Alat dikembalikan tepat waktu. Menunggu validasi admin.";
-
-        return redirect()->back()->with('success', $message);
+        return redirect()->back()
+            ->with('success', 'Permintaan pengembalian dikirim. Harap serahkan unit PS ke Petugas/Kasir untuk verifikasi akhir.');
     }
 }

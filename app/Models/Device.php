@@ -6,42 +6,42 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Inventory extends Model
+class Device extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['name', 'unique_code', 'category_id', 'stock', 'fine_total', 'fine_paid_at'];
+    protected $fillable = ['name', 'code', 'category_id', 'price_per_day', 'stock', 'description'];
 
     public function category()
     {
-        // Artinya: Inventory ini "milik" satu Category
         return $this->belongsTo(Category::class);
     }
+    
 
     protected static function booted()
     {
-        static::created(function ($inventory) {
+        static::created(function ($device) {
             ActivityLog::create([
                 'user_id'  => Auth::id(),
                 'action'   => 'create',
-                'activity' => "Membuat alat (ID: {$inventory->id})"
+                'activity' => "Membuat alat (ID: {$device->id})"
             ]);
         });
 
-        static::updated(function ($inventory) {
+        static::updated(function ($device) {
             $changes = [];
 
             // 1. Daftar kolom yang ingin diabaikan
             $ignoredColumns = ['updated_at'];
 
             // 2. Loop semua kolom yang berubah (dirty attributes)
-            foreach ($inventory->getDirty() as $column => $newValue) {
+            foreach ($device->getDirty() as $column => $newValue) {
                 // Lewati kolom yang diabaikan
                 if (in_array($column, $ignoredColumns)) {
                     continue;
                 }
 
                 // 3. Ambil nilai lama
-                $originalValue = $inventory->getOriginal($column);
+                $originalValue = $device->getOriginal($column);
 
                 // 4. Format pesan agar enak dibaca 
                 // Misal: 'stock' jadi 'Stok', 'name' jadi 'Nama Barang'
@@ -58,16 +58,16 @@ class Inventory extends Model
                     'action'   => 'update',
                     // Gabungkan semua perubahan dengan koma. 
                     // Contoh: "Nama berubah dari A ke B, Stok berubah dari 10 ke 5"
-                    'activity' => "Memperbarui alat (ID: {$inventory->id}): " . implode(', ', $changes)
+                    'activity' => "Memperbarui alat (ID: {$device->id}): " . implode(', ', $changes)
                 ]);
             }
         });
 
-        static::deleted(function ($inventory) {
+        static::deleted(function ($device) {
             ActivityLog::create([
                 'user_id'  => Auth::id(),
                 'action'   => 'delete',
-                'activity' => "Menghapus alat (ID: {$inventory->id})"
+                'activity' => "Menghapus alat (ID: {$device->id})"
             ]);
         });
     }

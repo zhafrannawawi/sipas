@@ -22,7 +22,7 @@ class UpdateLoanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'inventory_id' => 'required|exists:inventories,id',
+            'device_id' => 'required|exists:devices,id',
             'user_id' => 'required|exists:users,id',
             'loan_date'    => 'required|date|after_or_equal:today',
             'due_date'     => 'required|date|after_or_equal:loan_date',

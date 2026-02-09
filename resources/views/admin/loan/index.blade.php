@@ -33,9 +33,10 @@
                         <tr>
                             <th>#</th>
                             <th>Peminjam</th>
-                            <th>Alat</th>
+                            <th>Perangkat</th>
                             <th>Tgl Pinjam</th>
                             <th>Rencana Kembali</th>
+                            <th>Total Harga</th>
                             <th>Status</th>
                             <th class="text-center">Aksi</th>
                         </tr>
@@ -50,9 +51,12 @@
                                 </td>
 
                                 <td>{{ $loan->user->name }}</td>
-                                <td>{{ $loan->inventory->name }}</td>
+                                <td>{{ $loan->device->name }}</td>
                                 <td>{{ $loan->loan_date->translatedFormat('d F Y') }}</td>
                                 <td>{{ $loan->due_date->translatedFormat('d F Y') }}</td>
+                                <td>
+                                    Rp {{ number_format($loan->estimated_price, 0, ',', '.') }}
+                                </td>
                                 <td>
                                     <span class="badge {{ $loan->status_badge['class'] }}">
                                         <i class="fas {{ $loan->status_badge['icon'] }}"></i>

@@ -9,8 +9,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Loan extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['inventory_id', 'user_id', 'approved_by', 'received_by', 'loan_date', 'due_date', 'returned_date', 'fine_total', 'fine_paid_at', 'amount_paid', 'status'];
-
+    protected $fillable = [
+        'device_id',
+        'user_id',
+        'approved_by',
+        'received_by',
+        'loan_date',
+        'due_date',
+        'returned_date',
+        'status',
+        'price_per_day',
+        'total_price',
+        'pay_price',
+        'total_fine',
+        'pay_fine'
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -26,9 +39,9 @@ class Loan extends Model
         return $this->belongsTo(User::class, 'received_by');
     }
 
-    public function inventory()
+    public function device()
     {
-        return $this->belongsTo(Inventory::class);
+        return $this->belongsTo(Device::class);
     }
 
     public function getStatusLabelAttribute()
@@ -83,6 +96,12 @@ class Loan extends Model
         return $configs[$this->status];
     }
 
+
+    public function getEstimatedPriceAttribute()
+    {
+        return $this->calculatePrice();
+    }
+
     protected $casts = [
         'loan_date' => 'date',
         'due_date'  => 'date',
@@ -90,6 +109,24 @@ class Loan extends Model
         'fine_paid_at' => 'date'
     ];
 
+
+    public function calculatePrice()
+    {
+        if (!$this->loan_date || !$this->due_date || !$this->price_per_day) {
+            return 0;
+        }
+
+        $start = Carbon::parse($this->loan_date)->startOfDay();
+        $end   = Carbon::parse($this->due_date)->startOfDay();
+
+        $days = $start->diffInDays($end) + 1;
+
+        $total = $days * $this->price_per_day;
+
+        $this->total_price = $total;
+
+        return $total;
+    }
 
     public function calculateFine()
     {
@@ -112,7 +149,7 @@ class Loan extends Model
 
         // Hitung denda
         $lateDays = $dueDate->diffInDays($endDate);
-        $finePerDay = 5000;
+        $finePerDay = 50000;
 
         return $lateDays * $finePerDay;
     }

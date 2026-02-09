@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventories', function (Blueprint $table) {
+        Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('unique_code')->unique();
+            $table->string('code')->unique();
             $table->foreignId('category_id')
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete();
+            $table->integer('price_per_day');
             $table->unsignedInteger('stock')->default(0);
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('devices');
     }
 };

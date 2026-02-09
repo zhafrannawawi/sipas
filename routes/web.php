@@ -5,8 +5,8 @@ use App\Http\Controllers\admin\AdministratorController;
 use App\Http\Controllers\admin\BorrowerController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\Admin\DeviceController;
 use App\Http\Controllers\admin\HistoryLoanController;
-use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\LoanController;
 use App\Http\Controllers\admin\OfficerController;
 use App\Http\Controllers\Auth\LoginController;
@@ -34,7 +34,7 @@ Route::middleware(['auth', 'checkrole:admin'])->prefix('admin')->name('admin.')-
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('inventory', InventoryController::class);
+    Route::resource('device', DeviceController::class);
     Route::resource('category', CategoryController::class);
 
     Route::resource('loan', LoanController::class);
@@ -76,6 +76,8 @@ Route::middleware(['auth', 'checkrole:officer'])
         Route::get('/return', [ReturnController::class, 'index'])->name('return.index');
 
         Route::patch('/return/{loan}/validate', [ReturnController::class, 'approveReturn'])->name('return.validate');
+
+        Route::put('/loan/{loan}/return', [ReturnController::class, 'returnLoan'])->name('loan.return');
     });
 
 

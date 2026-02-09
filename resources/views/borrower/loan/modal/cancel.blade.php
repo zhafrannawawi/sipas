@@ -30,7 +30,7 @@
                     {{-- Informasi data yang akan dihapus sebagai validasi visual --}}
                     <div class="bg-light rounded-3 p-3 mb-4 border border-light-subtle">
                         <span class="text-muted small d-block mb-1">Data yang akan dibatalkan:</span>
-                        <span class="fw-bold text-dark fs-5">{{ $loan->inventory->name }}</span>
+                        <span class="fw-bold text-dark fs-5">{{ $loan->device->name }}</span>
                     </div>
 
                     <div class="d-grid gap-2 d-md-flex justify-content-center">

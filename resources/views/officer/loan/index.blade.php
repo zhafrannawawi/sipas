@@ -13,6 +13,8 @@
         </div>
     </div>
 
+    <x-alert></x-alert>
+
     <div class="card shadow-sm">
 
         {{-- Header tabel + trigger modal create --}}
@@ -45,7 +47,7 @@
                                 </td>
 
                                 <td>{{ $loan->user->name }}</td>
-                                <td>{{ $loan->inventory->name }}</td>
+                                <td>{{ $loan->device->name }}</td>
                                 <td>{{ $loan->loan_date->translatedFormat('d F Y') }}</td>
                                 <td>{{ $loan->due_date->translatedFormat('d F Y') }}</td>
                                 <td>
@@ -67,21 +69,16 @@
                                     </button>
 
                                     @if ($loan->status === 'pending')
-                                        <form action="{{ route('officer.loan.approve', $loan->id) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-success btn-sm"
-                                                data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                data-bs-title="Setujui">
-                                                <i class="fas fa-check-circle"></i>
-                                            </button>
-                                        </form>
+                                        <button type="submit" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#approveModal{{ $loan->id }}" title="Proses">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
 
                             @include('officer.loan.modal.detail_loan')
+                            @include('officer.loan.modal.payment')
 
                         @empty
                             <tr>

@@ -57,14 +57,6 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Alamat</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                            <textarea class="form-control" name="address" rows="1" required></textarea>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
                         <label class="form-label">Nomor Handphone</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>

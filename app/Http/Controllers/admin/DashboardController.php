@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Inventory;
+use App\Models\Device;
 use App\Models\Loan;
 use App\Models\User;
 use App\Models\ActivityLog;
@@ -17,7 +17,7 @@ class DashboardController extends Controller
     {
         $totalUsers = User::where('role', 'borrower')->count();
 
-        $totalInventories = Inventory::sum('stock');
+        $totalDevices = Device::sum('stock');
 
         $activeLoans = Loan::where('status', 'borrowed')->count();
 
@@ -26,6 +26,6 @@ class DashboardController extends Controller
         $ActivityLogs = ActivityLog::latest()->paginate(5);
         
 
-        return view('admin.dashboard.index', compact('totalUsers', 'activeLoans', 'totalInventories', 'ActivityLogs'));
+        return view('admin.dashboard.index', compact('totalUsers', 'activeLoans', 'totalDevices', 'ActivityLogs'));
     }
 }

@@ -13,12 +13,13 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label for="" class="form-label">Pilih Alat</label>
-                        <select class="form-select" name="inventory_id" required>
-                            <option selected disabled hidden>-- Pilih Alat --</option>
+                        <label for="" class="form-label">Pilih Perangkat</label>
+                        <select class="form-select" name="device_id" required>
+                            <option selected disabled hidden>-- Pilih Perangkat --</option>
 
-                            @foreach ($inventories as $inventory)
-                                <option value="{{ $inventory->id }}">{{ $inventory->name }}</option>
+                            @foreach ($devices as $device)
+                                <option value="{{ $device->id }}">{{ $device->name }}
+                                    (Rp {{ number_format($device->price_per_day) }}/Hari)</option>
                             @endforeach
                         </select>
                     </div>

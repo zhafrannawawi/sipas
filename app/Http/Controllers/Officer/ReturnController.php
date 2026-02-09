@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Loan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
 
 class ReturnController extends Controller
 {
@@ -18,23 +20,70 @@ class ReturnController extends Controller
         return view('officer.return.index', compact('returns'));
     }
 
-    public function approveReturn(Loan $loan)
+    public function returnLoan(Request $request, Loan $loan)
     {
-        if ($loan->status !== 'validation') {
-            return back()->with('error', 'Aksi tidak valid! Barang belum dikembalikan oleh user atau sudah diproses.');
+        // 1. Panggil Model untuk hitung denda real-time
+        $systemFine = $loan->calculateFine();
+
+        // 2. Validasi Input
+        // Kalau denda > 0, wajib isi. Kalau 0, boleh kosong/0.
+        $request->validate([
+            'amount_paid' => $systemFine > 0 ? 'required|numeric|min:0' : 'nullable'
+        ]);
+
+        // 3. Logic: Cek Pembayaran (English Var)
+        $receivedAmount = $request->amount_paid ?? 0;
+        $changeAmount   = 0;
+
+        // Jika ada denda, kita cek duitnya
+        if ($systemFine > 0) {
+
+            // Cek Kurang Bayar
+            if ($receivedAmount < $systemFine) {
+                $shortage = number_format($systemFine - $receivedAmount);
+                return redirect()->back()
+                    ->with('error', "Uang denda kurang Rp $shortage. Harap lunasi.");
+            }
+
+            // Hitung Kembalian
+            $changeAmount = $receivedAmount - $systemFine;
         }
 
-        DB::transaction(function () use ($loan) {
-            $loan->update([
-                'status'        => 'returned',
-                'received_by'   => Auth::id(),
-            ]);
+        // 4. Proses Transaksi
+        try {
+            DB::transaction(function () use ($loan, $systemFine, $receivedAmount) {
 
-            $loan->inventory->increment('stock');
-        });
+                // A. Update Stok (Penting!)
+                // Kembalikan stok PS ke database
+                $loan->device()->increment('stock');
 
-        return redirect()->route('officer.return.index')
-            ->with('success', 'Pengembalian berhasil divalidasi dan stok telah diperbarui!');
+                // B. Tutup Peminjaman
+                $loan->update([
+                    'status'        => 'returned',
+                    'returned_date' => now(),       // Catat jam sekarang
+                    'fine_total'    => $systemFine, // Simpan total denda
+                    'fine_paid'     => $receivedAmount, // Simpan uang yg diterima
+                ]);
+            });
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error System: ' . $e->getMessage());
+        }
+
+        // 5. Pesan Sukses Dinamis
+        $msg = 'Pengembalian Berhasil.';
+
+        if ($systemFine > 0) {
+            $msg .= ' Denda Lunas.';
+            if ($changeAmount > 0) {
+                $msg .= ' KEMBALIAN: Rp ' . number_format($changeAmount);
+            } else {
+                $msg .= ' Uang Pas.';
+            }
+        } else {
+            $msg .= ' Tepat Waktu (Tanpa Denda).';
+        }
+
+        return redirect()->route('officer.loan.index')->with('success', $msg);
     }
 
     public function export()

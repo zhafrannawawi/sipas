@@ -43,7 +43,7 @@
                                 </td>
 
                                 <td>{{ $return->user->name }}</td>
-                                <td>{{ $return->inventory->name }}</td>
+                                <td>{{ $return->device->name }}</td>
                                 <td>{{ $return->loan_date->translatedFormat('d F Y') }}</td>
                                 <td>{{ $return->due_date->translatedFormat('d F Y') }}</td>
 
@@ -74,22 +74,16 @@
                                     </button>
 
                                     @if ($return->status === 'validation')
-                                        <form action="{{ route('officer.return.validate', $return->id) }}"
-                                            method="POST" class="d-inline">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="btn btn-success btn-sm"
-                                                data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                                data-bs-title="Validasi">
-                                                <i class="fas fa-check-circle"></i>
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#returnModal{{ $return->id }}">
+                                            <i class="fas fa-undo"></i> Proses Kembali
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
 
                             @include('officer.return.modal.detail_loan')
-
+                            @include('officer.return.modal.return')
                         @empty
                             <tr>
                                 <td colspan="7" class="text-center text-muted py-4">

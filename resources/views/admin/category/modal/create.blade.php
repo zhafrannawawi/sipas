@@ -15,7 +15,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Nama Kategori</label>
-                        <input type="text" class="form-control" name="name" placeholder="Multimedia">
+                        <input type="text" class="form-control" name="name" placeholder="Konsol">
                     </div>
                 </div>
 

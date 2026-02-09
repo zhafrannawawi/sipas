@@ -25,7 +25,7 @@
 
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="text-light">{{ $totalInventories }}</h1>
+                        <h1 class="text-light">{{ $totalDevices }}</h1>
                         <i class="fas fa-boxes fa-3x opacity-50"></i>
                     </div>
                 </div>

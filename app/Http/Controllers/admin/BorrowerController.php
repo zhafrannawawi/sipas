@@ -4,7 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUserRequest;
-use App\Http\Requests\Admin\UpdateBorrowerRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
+
 use App\Models\User;
 
 class BorrowerController extends Controller
@@ -35,7 +36,7 @@ class BorrowerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBorrowerRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
 

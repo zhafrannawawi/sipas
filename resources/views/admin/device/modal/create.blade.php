@@ -9,23 +9,23 @@
             </div>
 
             {{-- Form create inventory --}}
-            <form action="{{ route('admin.inventory.store') }}" method="POST">
+            <form action="{{ route('admin.device.store') }}" method="POST">
                 @csrf
 
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label class="form-label">Nama Alat</label>
-                        <input type="text" class="form-control" name="name" placeholder="Proyektor">
+                        <label class="form-label">Nama Perangkat</label>
+                        <input type="text" class="form-control" name="name" placeholder="Ps 5">
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Kode Barang</label>
-                        <input type="text" class="form-control" name="unique_code" placeholder="PRY-001">
+                        <label class="form-label">Kode</label>
+                        <input type="text" class="form-control" name="code" placeholder="PS-005">
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Kategori Alat</label>
+                        <label class="form-label">Kategori</label>
                         <select class="form-select" name="category_id" required>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">
@@ -33,6 +33,16 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Harga Sewa / Hari</label>
+                        <input type="number" class="form-control" name="price_per_day" placeholder="Rp 120000">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Deskripsi</label>
+                        <input type="text" class="form-control" name="description" value="2 Controller + Kabel(HDMI,Power,Stick)" placeholder="2 Controller + Kabel (HDMI,Power,Stik)">
                     </div>
 
                     <div class="mb-3">

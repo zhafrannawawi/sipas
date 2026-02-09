@@ -51,7 +51,7 @@
                                     <td>
                                         {{ $loans->firstItem() + $loop->index }}
                                     </td>
-                                    <td>{{ $loan->inventory->name }}</td>
+                                    <td>{{ $loan->device->name }}</td>
                                     <td>{{ $loan->loan_date->translatedFormat('d F Y') }}</td>
                                     <td>{{ $loan->due_date->translatedFormat('d F Y') }}</td>
 
@@ -71,31 +71,15 @@
                                             </button>
 
                                             @if ($loan->status === 'borrowed')
-                                                @php
-                                                    // Logika: Cek apakah hari ini sudah melewati due_date
-                                                    // Kita gunakan Carbon untuk membandingkan tanggal sekarang dengan due_date di DB
-                                                    $isLate = now()->greaterThan($loan->due_date);
-                                                @endphp
-
-                                                @if ($isLate)
-                                                    {{-- JIKA TELAT: Muncul tombol Bayar Denda --}}
-                                                    <button type="button" class="btn btn-warning btn-sm"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#finePaymentModal{{ $loan->id }}">
-                                                        <i class="fas fa-money-bill-wave"></i> Bayar & Kembalikan
+                                                <form action="{{ route('borrower.loan.return', $loan->id) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-success btn-sm"
+                                                        onclick="return confirm('Kembalikan barang sekarang?')">
+                                                        <i class="fas fa-check-circle"></i> Kembalikan
                                                     </button>
-                                                @else
-                                                    {{-- JIKA TEPAT WAKTU: Muncul tombol Kembalikan Biasa --}}
-                                                    <form action="{{ route('borrower.loan.return', $loan->id) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <button type="submit" class="btn btn-success btn-sm"
-                                                            onclick="return confirm('Kembalikan barang sekarang?')">
-                                                            <i class="fas fa-check-circle"></i> Kembalikan
-                                                        </button>
-                                                    </form>
-                                                @endif
+                                                </form>
                                             @endif
                                         </div>
                                     </td>

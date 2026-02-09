@@ -15,15 +15,12 @@
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        <label class="form-label">Pilih Alat</label>
-                        <select class="form-select" name="inventory_id" required>
-                            <option disabled hidden>-- Pilih Alat --</option>
+                        <label class="form-label">Pilih Perangkat</label>
+                        <select class="form-select" name="device_id" required>
+                            <option selected disabled hidden>-- Pilih Perangkat --</option>
 
-                            @foreach ($inventories as $inventory)
-                                <option value="{{ $inventory->id }}"
-                                    {{ $loan->inventory_id == $inventory->id ? 'selected' : '' }}>
-                                    {{ $inventory->name }}
-                                </option>
+                            @foreach ($devices as $device)
+                                <option value="{{ $device->id }}">{{ $device->name }}</option>
                             @endforeach
                         </select>
                     </div>
